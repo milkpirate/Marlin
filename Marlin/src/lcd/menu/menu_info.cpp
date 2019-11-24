@@ -222,6 +222,24 @@ void menu_info_board() {
   VALUE_ITEM_P(MSG_INFO_BAUDRATE, STRINGIFY(BAUDRATE), SS_CENTER); // Baud: 250000
   VALUE_ITEM_P(MSG_INFO_PROTOCOL, PROTOCOL_VERSION, SS_CENTER);    // Protocol: 1.0
   VALUE_ITEM_P(MSG_INFO_PSU,      PSU_NAME, SS_CENTER);
+  STATIC_ITEM_P(PSTR("Stepper drivers:"), SS_LEFT);
+  #if defined(X_DRIVER_TYPE) || defined(Y_DRIVER_TYPE) || defined(Z_DRIVER_TYPE) || defined(E0_DRIVER_TYPE)
+    #ifdef X_DRIVER_TYPE
+      STATIC_ITEM_P(PSTR(" X:  " STRINGIFY(X_DRIVER_TYPE)), SS_LEFT);
+    #endif
+    #ifdef Y_DRIVER_TYPE
+      STATIC_ITEM_P(PSTR(" Y:  " STRINGIFY(Y_DRIVER_TYPE)), SS_LEFT);
+    #endif
+    #ifdef Z_DRIVER_TYPE
+      STATIC_ITEM_P(PSTR(" Z:  " STRINGIFY(Z_DRIVER_TYPE)), SS_LEFT);
+    #endif
+    #ifdef E0_DRIVER_TYPE
+      STATIC_ITEM_P(PSTR(" E0: " STRINGIFY(E0_DRIVER_TYPE)), SS_LEFT);
+    #endif
+  #else
+    STATIC_ITEM_P(PSTR(" All: A4988"));
+  #endif
+
   END_SCREEN();
 }
 
@@ -247,13 +265,26 @@ void menu_info_board() {
   void menu_info_printer() {
     if (ui.use_click()) return ui.go_back();
     START_SCREEN();
-    STATIC_ITEM_P(PSTR(MSG_MARLIN), SS_CENTER|SS_INVERT);       // Marlin
-    STATIC_ITEM_P(PSTR(SHORT_BUILD_VERSION));                   // x.x.x-Branch
-    STATIC_ITEM_P(PSTR(STRING_DISTRIBUTION_DATE));              // YYYY-MM-DD HH:MM
-    STATIC_ITEM_P(PSTR(MACHINE_NAME));                          // My3DPrinter
-    STATIC_ITEM_P(PSTR(WEBSITE_URL));                           // www.my3dprinter.com
+    STATIC_ITEM_P(PSTR("Firmware: " MSG_MARLIN), SS_LEFT|SS_INVERT);
+    //STATIC_ITEM_P(PSTR("Commit: " STRINGIFY(GIT_COMMIT_HASH_SHORT)), SS_LEFT|SS_INVERT);
+    STATIC_ITEM_P(PSTR("Branch:"), SS_LEFT);
+    STATIC_ITEM_P(PSTR(STRINGIFY(GIT_BRANCH)), SS_LEFT);
+    STATIC_ITEM_P(PSTR("Commit hash:"), SS_LEFT);
+    STATIC_ITEM_P(PSTR(STRINGIFY(GIT_COMMIT_HASH_20_DIGITS)), SS_LEFT);
+    STATIC_ITEM_P(PSTR("Authored date:"), SS_LEFT);
+    STATIC_ITEM_P(PSTR(STRINGIFY(GIT_AUTHORED_DATE)), SS_LEFT);
+    STATIC_ITEM_P(PSTR("Build date:"), SS_LEFT);
+    STATIC_ITEM_P(PSTR(STRINGIFY(GIT_BUILD_DATE)), SS_LEFT);
+    STATIC_ITEM_P(PSTR("Author:"), SS_LEFT);
+    STATIC_ITEM_P(PSTR(STRINGIFY(GIT_AUTHOR)), SS_LEFT);
+    //STATIC_ITEM_P(PSTR("Commit message:"), SS_LEFT);
+    //STATIC_ITEM_P(PSTR(STRINGIFY(GIT_COMMIT_MSG)), SS_LEFT);
+    STATIC_ITEM_P(PSTR("Machine name:"), SS_LEFT);
+    STATIC_ITEM_P(PSTR(MACHINE_NAME), SS_LEFT);
+    STATIC_ITEM_P(PSTR("Repository URL:"), SS_LEFT);
+    STATIC_ITEM_P(PSTR(STRINGIFY(GIT_REMOTE)), SS_LEFT);
     char buffer[21];
-    VALUE_ITEM_P(MSG_INFO_EXTRUDERS, STRINGIFY(EXTRUDERS), SS_CENTER); // Extruders: 2
+    VALUE_ITEM_P(MSG_INFO_EXTRUDERS, STRINGIFY(EXTRUDERS), SS_LEFT);  // Extruders: 2
     #if ENABLED(AUTO_BED_LEVELING_3POINT)
       STATIC_ITEM(MSG_3POINT_LEVELING);                         // 3-Point Leveling
     #elif ENABLED(AUTO_BED_LEVELING_LINEAR)
