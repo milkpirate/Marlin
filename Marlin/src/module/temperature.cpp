@@ -1698,6 +1698,12 @@ void Temperature::init() {
     HAL_ANALOG_SELECT(FILWIDTH_PIN);
   #endif
   #if HAS_ADC_BUTTONS
+    #ifndef ADC_KEYPAD_PIN
+      #error WARNING: ADC-keypads REQUIRE a hardware modification on 3.3V devices and are \
+             not officialy supported. As ADC_KEYPAD_PIN not defined, most likely you're on \
+             a 3.3V device. Only proceed if you know what you are doing or you will damage \
+             your board!
+    #endif
     HAL_ANALOG_SELECT(ADC_KEYPAD_PIN);
   #endif
 

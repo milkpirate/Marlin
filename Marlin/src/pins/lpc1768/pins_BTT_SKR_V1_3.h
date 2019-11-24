@@ -172,7 +172,7 @@
  *              _____                                             _____
  *          NC | · · | GND                                    5V | · · | GND
  *       RESET | · · | 1.31(SD_DETECT)             (LCD_D7) 1.23 | · · | 1.22 (LCD_D6)
- *  (MOSI)0.18 | · · | 3.25(BTN_EN2)               (LCD_D5) 1.21 | · · | 1.20 (LCD_D4)
+ *  (MOSI)0.18 | · ·   3.25(BTN_EN2)               (LCD_D5) 1.21 | · ·   1.20 (LCD_D4)
  * (SD_SS)0.16 | · · | 3.26(BTN_EN1)               (LCD_RS) 1.19 | · · | 1.18 (LCD_EN)
  *   (SCK)0.15 | · · | 0.17(MISO)                 (BTN_ENC) 0.28 | · · | 1.30 (BEEPER)
  *              -----                                             -----
@@ -189,8 +189,37 @@
 
     #define LCD_PINS_ENABLE P1_23
     #define LCD_PINS_D4    P1_21
-
-  #else
+  #elif ENABLED(ZONESTAR_LCD)
+    /**
+    *
+    * ATTENTION: ADC_KEYPAD needs to output max 3V3. The ADC inputs are not 5V
+    * compatible.
+    *
+    *                _____
+    *            5V | · · | GND
+    *       D4 1.23 | · · | 1.22
+    *       D5 1.21 | · ·   1.20 LCD_RS
+    *       D6 1.19 | · · | 1.18 LCD_EN
+    *       D7 0.28 | · · | 1.30 ADC_KEYPAD
+    *                -----
+    *                EXP1
+    *                _____
+    *            D7 | · · | ADC_KEYPAD
+    *            D6 | · · | LCD_EN
+    *            D5 | · ·   LCD_RS
+    *            D4 | · · | NC
+    *           +5V | · · | GND
+    *                -----
+    *             ZONESTAR LCD
+    */
+    #define LCD_PINS_RS      P1_20
+    #define LCD_PINS_ENABLE  P1_18
+    #define LCD_PINS_D4      P1_23
+    #define LCD_PINS_D5      P1_21
+    #define LCD_PINS_D6      P1_19
+    #define LCD_PINS_D7      P0_28
+    #define ADC_KEYPAD_PIN   P1_30 // ACD Channel 4 = P1_30, not 5V tolerant
+  #else // end ZONESTAR_LCD
     #define LCD_PINS_RS    P1_19
 
     #define BTN_EN1        P3_26   // (31) J3-2 & AUX-4
