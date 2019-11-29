@@ -218,7 +218,7 @@
     #define LCD_PINS_D5      P1_21
     #define LCD_PINS_D6      P1_19
     #define LCD_PINS_D7      P0_28
-    #define ADC_KEYPAD_PIN   P1_30 // ACD Channel 4 = P1_30, not 5V tolerant
+    #define ADC_KEYPAD_PIN   P1_30_A4 // ACD Channel 4 = P1_30, not 5V tolerant
   #else // end ZONESTAR_LCD
     #define LCD_PINS_RS    P1_19
 

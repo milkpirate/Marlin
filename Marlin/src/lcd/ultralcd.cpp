@@ -967,7 +967,7 @@ void MarlinUI::update() {
     // This runs every ~100ms when idling often enough.
     // Instead of tracking changes just redraw the Status Screen once per second.
     if (on_status_screen() && !lcd_status_update_delay--) {
-      lcd_status_update_delay = 9
+      lcd_status_update_delay = 4
         #if HAS_GRAPHICAL_LCD
           + 3
         #endif
